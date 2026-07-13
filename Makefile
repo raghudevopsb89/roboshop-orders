@@ -1,10 +1,16 @@
-.PHONY: build run docker-build clean
+.PHONY: build run unit-test integration-test docker-build clean
 
 build:
 	mvn clean package -DskipTests
 
 run:
 	MONGO_URL=mongodb://localhost:27017/orders AMQP_HOST=localhost mvn spring-boot:run
+
+unit-test:
+	mvn test
+
+integration-test:
+	mvn verify
 
 docker-build:
 	env

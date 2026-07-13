@@ -17,10 +17,28 @@ jobs:
     needs: lint
     runs-on: self-hosted
     steps:
-      - run: echo "Test Cases"
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - run: mvn -B test
+
+  integration-test:
+    needs: test
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      # `mvn verify` runs the Failsafe *IT tests (Testcontainers) and also re-runs the
+      # Surefire unit tests, which is fine.
+      - run: mvn -B verify
 
   ci:
-    needs: test
+    needs: integration-test
     uses: raghudevopsb89/github-actions/.github/workflows/ci.yml@main
     with:
       component_name: orders
