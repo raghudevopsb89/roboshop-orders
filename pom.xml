@@ -109,6 +109,32 @@
                     </execution>
                 </executions>
             </plugin>
+            <!--
+              JaCoCo: instruments the JVM during unit tests (Surefire) and emits an
+              XML coverage report at target/site/jacoco/jacoco.xml. SonarQube reads
+              that XML (sonar.coverage.jacoco.xmlReportPaths). A plain `mvn test`
+              produces the report; integration coverage from `mvn verify` is separate.
+            -->
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.12</version>
+                <executions>
+                    <execution>
+                        <id>default-prepare-agent</id>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>jacoco-report</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 </project>

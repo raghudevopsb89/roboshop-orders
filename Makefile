@@ -1,4 +1,4 @@
-.PHONY: build run unit-test integration-test docker-build clean
+.PHONY: build run unit-test integration-test coverage docker-build clean
 
 build:
 	mvn clean package -DskipTests
@@ -11,6 +11,11 @@ unit-test:
 
 integration-test:
 	mvn verify
+
+# Unit-test coverage: `mvn test` also writes target/site/jacoco/jacoco.xml (JaCoCo).
+# (`mvn verify` additionally produces integration coverage.)
+coverage:
+	mvn test
 
 docker-build:
 	env
