@@ -37,8 +37,19 @@ jobs:
       # Surefire unit tests, which is fine.
       - run: mvn -B verify
 
+  sast:
+    needs: lint
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - run: make coverage sonar-scan
+
   ci:
-    needs: integration-test
+    needs: [integration-test, sast, test]
     uses: raghudevopsb89/github-actions/.github/workflows/ci.yml@main
     with:
       component_name: orders
