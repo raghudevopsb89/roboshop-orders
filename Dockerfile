@@ -10,7 +10,7 @@ WORKDIR /app
 RUN apt-get update && apt-get install -y --no-install-recommends curl ca-certificates unzip \
  && curl -sSL -o /tmp/nr.zip https://download.newrelic.com/newrelic/java-agent/newrelic-agent/current/newrelic-java.zip \
  && unzip -q /tmp/nr.zip -d /opt && rm /tmp/nr.zip \
- && apt-get purge -y unzip && rm -rf /var/lib/apt/lists/*
+ && apt-get purge -y unzip && rm -rf /var/lib/apt/lists/* /usr/bin/pebble
 COPY --from=build /app/target/orders.jar .
 EXPOSE 8007
 ENV NEW_RELIC_APP_NAME=roboshop-orders
